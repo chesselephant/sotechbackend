@@ -1,9 +1,9 @@
 {
   "name": "projectt",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "npm install && node backend/server.js",
+    "start": "node backend/server.js",
     "backend": "nodemon backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
