@@ -2,7 +2,13 @@ import express from "express";
 import multer from "multer";
 import { storage } from "../config/cloudinary.js";
 import jwt from 'jsonwebtoken';
-import { createProduct,getAllProducts,getProductByName,EditProductDetails } from "../controllers/productController.js";
+import {
+    createProduct,
+    getAllProducts,
+    getProductByName,
+    EditProductDetails,
+    getProductById
+} from "../controllers/productController.js";
 
 const router = express.Router();
 const keys='jkjuiuy878'
@@ -16,7 +22,8 @@ router.post("/create", upload.single("imageUrl"), createProduct);
 router.get("/", getAllProducts);
 
 // Route to get product by name
-router.get("/:name", getProductByName);
+//router.get("/:name", getProductByName);
+router.get("/:id",getProductById);
 
 //const upload = multer({ dest: "uploads/" }); // Multer for file handling
 

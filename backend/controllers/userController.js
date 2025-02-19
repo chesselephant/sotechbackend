@@ -110,9 +110,9 @@ export const createAnOperator= async (req,res)=>{
 
 
 
-
-export const loginForUsers = async (req,res) =>{
+export const loginForUsers = async (req, res) => {
     const { email, password } = req.body;
+
     try {
         // Find the user by email
         const user = await User.findOne({ email });
@@ -121,23 +121,36 @@ export const loginForUsers = async (req,res) =>{
             return res.json({ success: false, message: "User not found" });
         }
 
+        // Check if user status is deactivated
+        if (user.status === "deactivated") {
+            return res.json({ success: false, message: "Your account has been deactivated. Please contact support." });
+        }
+
+        // Ensure user status is active before allowing login
+        if (user.status !== "active") {
+            return res.json({ success: false, message: "Your account is not active. Please verify your account or contact support." });
+        }
+
         // Compare the password from the request with the user's stored password
         const isPasswordMatch = await bcrypt.compare(password, user.password);
-
 
         if (!isPasswordMatch) {
             return res.json({ success: false, message: "Incorrect Password" });
         }
 
         // Generate a JWT token with the user as the payload
-        const token = jwt.sign({ userEmail:user.email,userName:user.name,userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign(
+            { userEmail: user.email, userName: user.name, userId: user._id, role: user.role, userStatus: user.status },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
 
-        return res.json({ role: user.role, token });
+        return res.json({ success: true, role: user.role, token });
+
     } catch (error) {
         return res.status(500).json({ success: false, message: "Server error" });
     }
-
-}
+};
 
 
 export const updateAnOperator = async (req, res) => {
@@ -244,6 +257,33 @@ export const changePassword = async (req, res) => {
         return res.status(500).json({ success: false, message: "Server error" });
     }
 };
+
+export const toggleUserStatus = async (req, res) => {
+    const { userId } = req.body;
+
+    try {
+        // Find the user by ID
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Toggle user status
+        const newStatus = user.status === "active" ? "deactivated" : "active";
+
+        // Update user status in the database
+        user.status = newStatus;
+        await user.save();
+
+        return res.json({ success: true, message: `User status changed to ${newStatus}`, newStatus });
+
+    } catch (error) {
+        console.error("Error updating user status:", error);
+        return res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
 
 
 

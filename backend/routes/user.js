@@ -1,6 +1,15 @@
 import express from "express";
 
-import {updateOperator,getAllOperator,createOperator,loginForUsers,createAnOperator,updateAnOperator,changePassword} from "../controllers/userController.js"
+import {
+    updateOperator,
+    getAllOperator,
+    createOperator,
+    loginForUsers,
+    createAnOperator,
+    updateAnOperator,
+    changePassword,
+    toggleUserStatus
+} from "../controllers/userController.js"
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
@@ -13,7 +22,9 @@ router.get("/getalloperator",getAllOperator);
 router.post("/create-operator",createAnOperator);
 router.post("/login-users",loginForUsers);
 router.post("/change-password", changePassword);
-console.log(`gggg--->${process.env.CLOUDINARY_CLOUD_NAME}`)
+
+router.post("/change-status", toggleUserStatus);
+
 function verifyToken(request, response, next) {
     const authHeaders = request.headers["authorization"]
     const token = authHeaders && authHeaders.split(' ')[1]
