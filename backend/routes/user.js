@@ -1,9 +1,9 @@
 import express from "express";
 
 import {
-    updateOperator,
+    
     getAllOperator,
-    createOperator,
+
     loginForUsers,
     createAnOperator,
     updateAnOperator,

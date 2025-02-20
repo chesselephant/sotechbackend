@@ -2,7 +2,7 @@ import Product from "../model/product.js";
 import { cloudinary } from "../config/cloudinary.js";
 
 
-const PLACEHOLDER_IMAGE = "https://res.cloudinary.com/demo/image/upload/v1622332921/placeholder.jpg";
+const PLACEHOLDER_IMAGE = "https://res.cloudinary.com/dv3r7p7jp/image/upload/v1740044195/place-holder_ckygim.jpg";
 
 export const createProduct = async (req, res) => {
     try {
