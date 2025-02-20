@@ -22,7 +22,7 @@ router.post("/create", upload.single("imageUrl"), createProduct);
 router.get("/", getAllProducts);
 
 // Route to get product by name
-//router.get("/:name", getProductByName);
+router.get("/gpbn/:name", getProductByName);
 router.get("/:id",getProductById);
 
 //const upload = multer({ dest: "uploads/" }); // Multer for file handling

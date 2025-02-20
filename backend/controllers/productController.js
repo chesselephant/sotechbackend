@@ -58,6 +58,7 @@ export const getAllProducts = async (req, res) => {
 export const getProductByName = async (req, res) => {
     try {
         const { name } = req.params;
+        console.log(`value of ${name}`)
 
         const product = await Product.findOne({ name: { $regex: new RegExp("^" + name + "$", "i") } });
 
