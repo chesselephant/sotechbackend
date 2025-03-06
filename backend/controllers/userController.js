@@ -223,6 +223,7 @@ export const getAllOperator = async (req, res) => {
 
 export const changePassword = async (req, res) => {
     const { userId, oldPassword, newPassword } = req.body;
+    console.log(req.body)
 
     // Validate input fields
     if (!userId || !oldPassword || !newPassword) {
@@ -254,7 +255,7 @@ export const changePassword = async (req, res) => {
 
     } catch (error) {
         console.error("Error changing password:", error.message);
-        return res.status(500).json({ success: false, message: "Server error" });
+        return res.status(500).json({ success: false, message: "Server errors" });
     }
 };
 

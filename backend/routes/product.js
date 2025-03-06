@@ -7,7 +7,10 @@ import {
     getAllProducts,
     getProductByName,
     EditProductDetails,
-    getProductById
+    getProductById,
+    IssueProductt,
+    issueProduct3,
+    increaseProductQuantity, getAllIssues,getIssueById,updateDiscount,getDailySales
 } from "../controllers/productController.js";
 
 const router = express.Router();
@@ -23,7 +26,10 @@ router.get("/", getAllProducts);
 
 // Route to get product by name
 router.get("/gpbn/:name", getProductByName);
+
 router.get("/:id",getProductById);
+
+router.get("/all/all-issue", getAllIssues);///api/products/getAll-issues
 
 //const upload = multer({ dest: "uploads/" }); // Multer for file handling
 
@@ -31,25 +37,16 @@ router.get("/:id",getProductById);
 router.put("/:id", upload.single("imageUrl"), EditProductDetails);
 
 
-function verifyToken(request, response, next) {
-    const authHeaders = request.headers["authorization"]
-    const token = authHeaders && authHeaders.split(' ')[1]
-    if (!token) {
-        return response.status(401).json({message: "Authentication token is missing"})
-    }
 
-    jwt.verify(token,'jhjjh67676' , (error, user) => {
-        if (error) {
-            return response.status(403).json({message: "Invalid Token"})
-        }
+router.post("/issues/issueproducts",issueProduct3)
 
-        request.body.user = user
-        next()
-    })
-}
+router.put("/increase-quantity/:id", increaseProductQuantity);
 
+router.get("/issue/:id", getIssueById);
 
+router.put("/update-discount/:id", updateDiscount);
 
+router.get("/salez/daily", getDailySales);//http://localhost:5000/api/products/salez/daily
 export default router;
 
 
